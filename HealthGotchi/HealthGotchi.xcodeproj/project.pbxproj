@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		0D9C22222EC8E6AC00F1247E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D9C22092EC8E6AA00F1247E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D9C22102EC8E6AA00F1247E;
+			remoteInfo = HealthGotchi;
+		};
+		0D9C222C2EC8E6AC00F1247E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D9C22092EC8E6AA00F1247E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D9C22102EC8E6AA00F1247E;
+			remoteInfo = HealthGotchi;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D9C22112EC8E6AA00F1247E /* HealthGotchi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthGotchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D9C22212EC8E6AC00F1247E /* HealthGotchiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthGotchiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D9C222B2EC8E6AC00F1247E /* HealthGotchiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthGotchiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0D9C22132EC8E6AA00F1247E /* HealthGotchi */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HealthGotchi;
+			sourceTree = "<group>";
+		};
+		0D9C22242EC8E6AC00F1247E /* HealthGotchiTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HealthGotchiTests;
+			sourceTree = "<group>";
+		};
+		0D9C222E2EC8E6AC00F1247E /* HealthGotchiUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HealthGotchiUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0D9C220E2EC8E6AA00F1247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C221E2EC8E6AC00F1247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C22282EC8E6AC00F1247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D9C22082EC8E6AA00F1247E = {
+			isa = PBXGroup;
+			children = (
+				0D9C22132EC8E6AA00F1247E /* HealthGotchi */,
+				0D9C22242EC8E6AC00F1247E /* HealthGotchiTests */,
+				0D9C222E2EC8E6AC00F1247E /* HealthGotchiUITests */,
+				0D9C22122EC8E6AA00F1247E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0D9C22122EC8E6AA00F1247E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D9C22112EC8E6AA00F1247E /* HealthGotchi.app */,
+				0D9C22212EC8E6AC00F1247E /* HealthGotchiTests.xctest */,
+				0D9C222B2EC8E6AC00F1247E /* HealthGotchiUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0D9C22102EC8E6AA00F1247E /* HealthGotchi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D9C22352EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchi" */;
+			buildPhases = (
+				0D9C220D2EC8E6AA00F1247E /* Sources */,
+				0D9C220E2EC8E6AA00F1247E /* Frameworks */,
+				0D9C220F2EC8E6AA00F1247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0D9C22132EC8E6AA00F1247E /* HealthGotchi */,
+			);
+			name = HealthGotchi;
+			packageProductDependencies = (
+			);
+			productName = HealthGotchi;
+			productReference = 0D9C22112EC8E6AA00F1247E /* HealthGotchi.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0D9C22202EC8E6AC00F1247E /* HealthGotchiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D9C22382EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchiTests" */;
+			buildPhases = (
+				0D9C221D2EC8E6AC00F1247E /* Sources */,
+				0D9C221E2EC8E6AC00F1247E /* Frameworks */,
+				0D9C221F2EC8E6AC00F1247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D9C22232EC8E6AC00F1247E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0D9C22242EC8E6AC00F1247E /* HealthGotchiTests */,
+			);
+			name = HealthGotchiTests;
+			packageProductDependencies = (
+			);
+			productName = HealthGotchiTests;
+			productReference = 0D9C22212EC8E6AC00F1247E /* HealthGotchiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0D9C222A2EC8E6AC00F1247E /* HealthGotchiUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D9C223B2EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchiUITests" */;
+			buildPhases = (
+				0D9C22272EC8E6AC00F1247E /* Sources */,
+				0D9C22282EC8E6AC00F1247E /* Frameworks */,
+				0D9C22292EC8E6AC00F1247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D9C222D2EC8E6AC00F1247E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0D9C222E2EC8E6AC00F1247E /* HealthGotchiUITests */,
+			);
+			name = HealthGotchiUITests;
+			packageProductDependencies = (
+			);
+			productName = HealthGotchiUITests;
+			productReference = 0D9C222B2EC8E6AC00F1247E /* HealthGotchiUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0D9C22092EC8E6AA00F1247E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					0D9C22102EC8E6AA00F1247E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					0D9C22202EC8E6AC00F1247E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 0D9C22102EC8E6AA00F1247E;
+					};
+					0D9C222A2EC8E6AC00F1247E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 0D9C22102EC8E6AA00F1247E;
+					};
+				};
+			};
+			buildConfigurationList = 0D9C220C2EC8E6AA00F1247E /* Build configuration list for PBXProject "HealthGotchi" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0D9C22082EC8E6AA00F1247E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0D9C22122EC8E6AA00F1247E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0D9C22102EC8E6AA00F1247E /* HealthGotchi */,
+				0D9C22202EC8E6AC00F1247E /* HealthGotchiTests */,
+				0D9C222A2EC8E6AC00F1247E /* HealthGotchiUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0D9C220F2EC8E6AA00F1247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C221F2EC8E6AC00F1247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C22292EC8E6AC00F1247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D9C220D2EC8E6AA00F1247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C221D2EC8E6AC00F1247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D9C22272EC8E6AC00F1247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0D9C22232EC8E6AC00F1247E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D9C22102EC8E6AA00F1247E /* HealthGotchi */;
+			targetProxy = 0D9C22222EC8E6AC00F1247E /* PBXContainerItemProxy */;
+		};
+		0D9C222D2EC8E6AC00F1247E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D9C22102EC8E6AA00F1247E /* HealthGotchi */;
+			targetProxy = 0D9C222C2EC8E6AC00F1247E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D9C22332EC8E6AC00F1247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0D9C22342EC8E6AC00F1247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0D9C22362EC8E6AC00F1247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HealthGotchi/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0D9C22372EC8E6AC00F1247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HealthGotchi/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0D9C22392EC8E6AC00F1247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HealthGotchi.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HealthGotchi";
+			};
+			name = Debug;
+		};
+		0D9C223A2EC8E6AC00F1247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HealthGotchi.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HealthGotchi";
+			};
+			name = Release;
+		};
+		0D9C223C2EC8E6AC00F1247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HealthGotchi;
+			};
+			name = Debug;
+		};
+		0D9C223D2EC8E6AC00F1247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phonixdrive.HealthGotchiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HealthGotchi;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0D9C220C2EC8E6AA00F1247E /* Build configuration list for PBXProject "HealthGotchi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D9C22332EC8E6AC00F1247E /* Debug */,
+				0D9C22342EC8E6AC00F1247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D9C22352EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D9C22362EC8E6AC00F1247E /* Debug */,
+				0D9C22372EC8E6AC00F1247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D9C22382EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D9C22392EC8E6AC00F1247E /* Debug */,
+				0D9C223A2EC8E6AC00F1247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D9C223B2EC8E6AC00F1247E /* Build configuration list for PBXNativeTarget "HealthGotchiUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D9C223C2EC8E6AC00F1247E /* Debug */,
+				0D9C223D2EC8E6AC00F1247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0D9C22092EC8E6AA00F1247E /* Project object */;
+}
