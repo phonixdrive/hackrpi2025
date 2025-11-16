@@ -20,6 +20,8 @@ struct LogScreen: View {
     @State private var bodyWeightKg: Double? = nil
     @State private var bodyHeightM: Double? = nil
     
+    @FocusState private var stepsFieldIsFocused: Bool
+    
     private var themeColor: Color {
         color(for: viewModel.themeColorName)
     }
@@ -44,15 +46,49 @@ struct LogScreen: View {
                         .padding(.top, 20)
                     
                     VStack(spacing: 16) {
-                        // Steps
+                        // STEPS
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("STEPS")
-                                .font(.system(.headline, design: .monospaced))
+                            HStack {
+                                Text("STEPS")
+                                    .font(.system(.headline, design: .monospaced))
+                                Spacer()
+                                // Local "DONE" to kill keyboard if toolbar fails
+                                if stepsFieldIsFocused {
+                                    Button("DONE") {
+                                        stepsFieldIsFocused = false
+                                    }
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundColor(themeColor)
+                                }
+                            }
                             
-                            TextField("Enter steps", text: $stepsText)
-                                .keyboardType(.numberPad)
-                                .textFieldStyle(.roundedBorder)
-                                .foregroundColor(.black) // keep field readable
+                            HStack(spacing: 8) {
+                                TextField("Enter steps", text: $stepsText)
+                                    .keyboardType(.numberPad)
+                                    .padding(8)
+                                    .background(Color(white: 0.1)) // dark but visible
+                                    .foregroundColor(themeColor)   // green/red/blue/purple text
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(themeColor, lineWidth: 1.5)
+                                    )
+                                    .cornerRadius(8)
+                                    .focused($stepsFieldIsFocused)
+                                
+                                Button {
+                                    // Quick apply button if you want to force-save
+                                    let steps = Int(stepsText) ?? 0
+                                    viewModel.updateToday(steps: steps)
+                                } label: {
+                                    Text("APPLY")
+                                        .font(.system(.caption, design: .monospaced))
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 4)
+                                        .background(themeColor)
+                                        .foregroundColor(.black)
+                                        .cornerRadius(6)
+                                }
+                            }
                             
                             Text("Current: \(todayLog.steps) steps")
                                 .font(.system(.caption, design: .monospaced))
@@ -66,7 +102,7 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        // Healthy meals
+                        // HEALTHY MEALS
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Text("HEALTHY MEALS")
@@ -83,7 +119,7 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        // Junk meals
+                        // JUNK MEALS
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Text("JUNK MEALS")
@@ -100,7 +136,7 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        // Health data summary
+                        // HEALTH DATA SUMMARY
                         VStack(alignment: .leading, spacing: 8) {
                             Text("HEALTH SUMMARY")
                                 .font(.system(.headline, design: .monospaced))
@@ -139,7 +175,9 @@ struct LogScreen: View {
                                 let cm = heightM * 100.0
                                 let totalInches = heightM * 39.3701
                                 let feet = Int(totalInches / 12.0)
-                                let inches = Int(round(totalInches.truncatingRemainder(dividingBy: 12.0)))
+                                let inches = Int(round(
+                                    totalInches.truncatingRemainder(dividingBy: 12.0)
+                                ))
                                 
                                 HStack {
                                     Text("Height")
@@ -150,7 +188,7 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        // Manual tuning / debug
+                        // MANUAL TUNING / DEBUG
                         VStack(alignment: .leading, spacing: 10) {
                             Text("MANUAL TUNING (DEBUG)")
                                 .font(.system(.headline, design: .monospaced))
@@ -252,7 +290,7 @@ struct LogScreen: View {
                         .retroCard(theme: themeColor)
                         
                         Button(action: finishToday) {
-                            Text("finish TODAY")
+                            Text("FINISH TODAY")
                                 .font(.system(.headline, design: .monospaced))
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -270,14 +308,34 @@ struct LogScreen: View {
         .onAppear {
             // Sync UI with today’s current values
             let log = viewModel.logForToday()
-            stepsText = log.steps > 0 ? String(log.steps) : ""
+            stepsText   = log.steps > 0 ? String(log.steps) : ""
             healthyMeals = log.healthyMeals
-            junkMeals = log.junkMeals
-            sleepHours = log.sleepHours
-            distanceKm = log.distanceKm
-            flights = log.flights
-            bodyWeightKg = log.bodyWeightKg
-            bodyHeightM = log.bodyHeightM
+            junkMeals    = log.junkMeals
+            sleepHours   = log.sleepHours
+            distanceKm   = log.distanceKm
+            flights      = log.flights
+            
+            // For weight/height, prefer today's log; otherwise fall back to last known values
+            if let w = log.bodyWeightKg {
+                bodyWeightKg = w
+            } else if let lastW = viewModel.logs.reversed().compactMap({ $0.bodyWeightKg }).first {
+                bodyWeightKg = lastW
+            }
+            
+            if let h = log.bodyHeightM {
+                bodyHeightM = h
+            } else if let lastH = viewModel.logs.reversed().compactMap({ $0.bodyHeightM }).first {
+                bodyHeightM = lastH
+            }
+        }
+        .toolbar {
+            // Keyboard toolbar "Done" button (above number pad)
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    stepsFieldIsFocused = false
+                }
+            }
         }
     }
     
@@ -294,6 +352,7 @@ struct LogScreen: View {
             bodyHeightM: bodyHeightM
         )
     }
+    
     func finishToday() {
         // 1) Save today's data to the current simulated day
         let steps = Int(stepsText) ?? 0
@@ -304,21 +363,34 @@ struct LogScreen: View {
             sleepHours: sleepHours,
             distanceKm: distanceKm,
             flights: flights,
-            bodyWeightKg: bodyWeightKg
+            bodyWeightKg: bodyWeightKg,
+            bodyHeightM: bodyHeightM
         )
         
         // 2) Advance the app's "today" to the next day
         viewModel.advanceToNextDay()
         
-        // 3) Reset today's editable fields for the new day
+        // 3) Carry weight/height forward into the new day's log (they should be persistent)
+        if let w = bodyWeightKg {
+            viewModel.updateToday(bodyWeightKg: w)
+        }
+        if let h = bodyHeightM {
+            viewModel.updateToday(bodyHeightM: h)
+        }
+        
+        // 4) Reset today's editable fields for the new day.
+        //    Sleep, distance, flights, meals start at 0 for *today*,
+        //    but weight/height persist.
+        sleepHours   = 0
+        distanceKm   = 0
+        flights      = 0
+        healthyMeals = 0
+        junkMeals    = 0
+        stepsText    = ""
+        
         let newLog = viewModel.logForToday()
-        stepsText   = newLog.steps > 0 ? String(newLog.steps) : ""
-        healthyMeals = newLog.healthyMeals
-        junkMeals    = newLog.junkMeals
-        sleepHours   = newLog.sleepHours
-        distanceKm   = newLog.distanceKm
-        flights      = newLog.flights
-        bodyWeightKg = newLog.bodyWeightKg
+        bodyWeightKg = newLog.bodyWeightKg ?? bodyWeightKg
+        bodyHeightM  = newLog.bodyHeightM ?? bodyHeightM
     }
     
     func importFromHealth() {
@@ -337,13 +409,13 @@ struct LogScreen: View {
                 guard let snapshot = snapshot else { return }
                 
                 DispatchQueue.main.async {
-                    // Update UI
-                    self.stepsText = String(snapshot.steps)
-                    self.sleepHours = snapshot.sleepHours
-                    self.distanceKm = snapshot.distanceKm
-                    self.flights = snapshot.flights
+                    // Update UI from HealthKit snapshot
+                    self.stepsText    = String(snapshot.steps)
+                    self.sleepHours   = snapshot.sleepHours
+                    self.distanceKm   = snapshot.distanceKm
+                    self.flights      = snapshot.flights
                     self.bodyWeightKg = snapshot.bodyWeightKg
-                    self.bodyHeightM = snapshot.bodyHeightM
+                    self.bodyHeightM  = snapshot.bodyHeightM
                     
                     // Update today's log with all the pulled metrics
                     self.viewModel.updateToday(
