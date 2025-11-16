@@ -215,8 +215,23 @@ class HealthPetViewModel: ObservableObject {
             hungerFullness = clamp01(hungerFullness)
             
             // -------- Energy --------
-            // Only depends on sleep for now, resets daily
-            let energyScore = sleepFactor
+            // Base from sleep, minus depletion based on distance & flights.
+            // Use stride length ~ 0.4 * height to estimate "step-equivalents".
+            let heightM = log.bodyHeightM ?? 1.75
+            let strideLengthM = max(0.3, heightM * 0.4)    // minimum clamp so it never divides by tiny value
+            let distanceMeters = log.distanceKm * 1000.0
+            let stepEquivalents = distanceMeters / strideLengthM      // how many strides today
+            
+            // Normalize into "units"
+            // ~10k steps-equivalent ≈ 1 unit, 20 flights ≈ 1 unit.
+            let stepUnits = stepEquivalents / 10_000.0
+            let flightUnits = Double(log.flights) / 20.0
+            
+            // Total depletion: you can tune these multipliers to make it harsher/softer.
+            let depletion = 0.5 * stepUnits + 0.6 * flightUnits
+            
+            var energyScore = sleepFactor - depletion
+            energyScore = clamp01(energyScore)
             
             // -------- BMI / body health --------
             var bmiScore = 0.5

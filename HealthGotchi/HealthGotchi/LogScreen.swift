@@ -20,7 +20,15 @@ struct LogScreen: View {
     @State private var bodyWeightKg: Double? = nil
     @State private var bodyHeightM: Double? = nil
     
+    // AI meal logging
+    @State private var mealText: String = ""
+    @State private var isAnalyzingMeal: Bool = false
+    @State private var lastFoodEffect: FoodEffect? = nil
+    @State private var aiError: String? = nil
+    
+    // Focus states for keyboards
     @FocusState private var stepsFieldIsFocused: Bool
+    @FocusState private var mealFieldIsFocused: Bool
     
     private var themeColor: Color {
         color(for: viewModel.themeColorName)
@@ -76,7 +84,6 @@ struct LogScreen: View {
                                     .focused($stepsFieldIsFocused)
                                 
                                 Button {
-                                    // Quick apply button if you want to force-save
                                     let steps = Int(stepsText) ?? 0
                                     viewModel.updateToday(steps: steps)
                                 } label: {
@@ -102,37 +109,63 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        // HEALTHY MEALS
+                        // MEAL LOG WITH AI
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text("HEALTHY MEALS")
-                                Spacer()
-                                Text("\(healthyMeals)")
-                            }
-                            .font(.system(.headline, design: .monospaced))
+                            Text("MEAL LOG (AI)")
+                                .font(.system(.headline, design: .monospaced))
                             
-                            Stepper("Adjust", value: $healthyMeals, in: 0...10)
-                                .labelsHidden()
-                                .onChange(of: healthyMeals) { _, newValue in
-                                    viewModel.updateToday(healthyMeals: newValue)
-                                }
-                        }
-                        .retroCard(theme: themeColor)
-                        
-                        // JUNK MEALS
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text("JUNK MEALS")
-                                Spacer()
-                                Text("\(junkMeals)")
-                            }
-                            .font(.system(.headline, design: .monospaced))
+                            TextField("e.g. chicken salad and water", text: $mealText, axis: .vertical)
+                                .lineLimit(1...3)
+                                .padding(8)
+                                .background(Color(white: 0.1))
+                                .foregroundColor(themeColor)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(themeColor, lineWidth: 1.5)
+                                )
+                                .cornerRadius(8)
+                                .focused($mealFieldIsFocused)
                             
-                            Stepper("Adjust", value: $junkMeals, in: 0...10)
-                                .labelsHidden()
-                                .onChange(of: junkMeals) { _, newValue in
-                                    viewModel.updateToday(junkMeals: newValue)
+                            HStack {
+                                Button {
+                                    analyzeMealWithAI()
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        if isAnalyzingMeal {
+                                            ProgressView()
+                                        }
+                                        Text("ANALYZE MEAL")
+                                    }
+                                    .font(.system(.caption, design: .monospaced))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 6)
+                                    .background(themeColor)
+                                    .foregroundColor(.black)
+                                    .cornerRadius(8)
                                 }
+                                .disabled(mealText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isAnalyzingMeal)
+                                
+                                Spacer()
+                            }
+                            
+                            if let effect = lastFoodEffect {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(String(format: "Health Δ: %.2f", effect.healthDelta))
+                                    Text(String(format: "Energy Δ: %.2f", effect.energyDelta))
+                                    Text(String(format: "Mood Δ: %.2f", effect.moodDelta))
+                                    Text(effect.explanation)
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundColor(themeColor.opacity(0.8))
+                                }
+                                .font(.system(.caption, design: .monospaced))
+                                .padding(.top, 4)
+                            }
+                            
+                            if let aiError {
+                                Text("AI ERROR: \(aiError)")
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundColor(.red)
+                            }
                         }
                         .retroCard(theme: themeColor)
                         
@@ -334,10 +367,13 @@ struct LogScreen: View {
                 Spacer()
                 Button("Done") {
                     stepsFieldIsFocused = false
+                    mealFieldIsFocused = false
                 }
             }
         }
     }
+    
+    // MARK: - Actions
     
     func saveToday() {
         let steps = Int(stepsText) ?? 0
@@ -387,6 +423,9 @@ struct LogScreen: View {
         healthyMeals = 0
         junkMeals    = 0
         stepsText    = ""
+        mealText     = ""
+        lastFoodEffect = nil
+        aiError        = nil
         
         let newLog = viewModel.logForToday()
         bodyWeightKg = newLog.bodyWeightKg ?? bodyWeightKg
@@ -428,6 +467,57 @@ struct LogScreen: View {
                         bodyWeightKg: snapshot.bodyWeightKg,
                         bodyHeightM: snapshot.bodyHeightM
                     )
+                }
+            }
+        }
+    }
+    
+    private func analyzeMealWithAI() {
+        let trimmed = mealText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        
+        // kill keyboard
+        mealFieldIsFocused = false
+        
+        isAnalyzingMeal = true
+        aiError = nil
+        
+        FoodAIModel.shared.analyzeMeal(trimmed) { result in
+            DispatchQueue.main.async {
+                self.isAnalyzingMeal = false
+                switch result {
+                case .success(let effect):
+                    self.lastFoodEffect = effect
+                    
+                    // Map healthDelta sign into healthy vs junk counts (for existing logic)
+                    if effect.healthDelta >= 0 {
+                        self.healthyMeals += 1
+                        self.viewModel.updateToday(healthyMeals: self.healthyMeals)
+                    } else {
+                        self.junkMeals += 1
+                        self.viewModel.updateToday(junkMeals: self.junkMeals)
+                    }
+                    
+                    // Extra visible impact: boost and apply directly to pet stats.
+                    // So "good" meals noticeably move health/energy/mood.
+                    let boostFactor = 1.5
+                    let hDelta = effect.healthDelta * boostFactor
+                    let eDelta = effect.energyDelta * boostFactor
+                    let mDelta = effect.moodDelta * boostFactor
+                    
+                    func clamp(_ x: Double) -> Double {
+                        max(0.0, min(1.0, x))
+                    }
+                    
+                    self.viewModel.pet.health = clamp(self.viewModel.pet.health + hDelta)
+                    self.viewModel.pet.energy = clamp(self.viewModel.pet.energy + eDelta)
+                    self.viewModel.pet.mood   = clamp(self.viewModel.pet.mood + mDelta)
+                    
+                    // Persist updated pet state
+                    self.viewModel.save()
+                    
+                case .failure(let error):
+                    self.aiError = error.localizedDescription
                 }
             }
         }

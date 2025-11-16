@@ -17,19 +17,21 @@ struct PetScreen: View {
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 24) {
+            VStack(spacing: 12) {     // ⬅ was 24 — reduced spacing
+
                 Text("HEALTHGOTCHI")
                     .font(.system(size: 26, weight: .bold, design: .monospaced))
                     .foregroundColor(themeColor)
-                    .padding(.top, 20)
+                    .padding(.top, 10)
                 
                 Text("LEVEL \(viewModel.pet.level)")
                     .font(.system(.headline, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                 
-                // Pixel pet sprite
+                // Pixel Sprite
                 pixelPetView()
                     .retroCard(theme: themeColor)
+                    .padding(.top, 4)        // NEW slight bump up
                 
                 // MAIN HEALTH BAR
                 VStack(alignment: .leading, spacing: 8) {
@@ -42,14 +44,15 @@ struct PetScreen: View {
                     HStack {
                         Text(String(format: "%3d%%", Int(viewModel.pet.health * 100)))
                         Spacer()
-                        Text("XP \(Int(viewModel.pet.experience))")
+                        Text(String(format: "XP %d", Int(viewModel.pet.experience)))
                     }
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                 }
                 .retroCard(theme: themeColor)
+                .padding(.top, 4)        // NEW
                 
-                // EXTRA BARS: HUNGER / ENERGY / MOOD
+                // HUNGER / ENERGY / MOOD
                 VStack(alignment: .leading, spacing: 10) {
                     Text("STATS")
                         .font(.system(.headline, design: .monospaced))
@@ -60,18 +63,18 @@ struct PetScreen: View {
                     labeledStatBar(label: "MOOD", value: viewModel.pet.mood)
                 }
                 .retroCard(theme: themeColor)
+                .padding(.top, 4)        // NEW
                 
-                // Status message
+                // STATUS / SPEECH BUBBLE
                 Text(petMessage())
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .retroCard(theme: themeColor)
-                
-                Spacer()
+                    .padding(.bottom, 20)    // ⬅ gives breathing room above bottom buttons
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
     
