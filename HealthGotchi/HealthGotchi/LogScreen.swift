@@ -26,6 +26,10 @@ struct LogScreen: View {
     @State private var lastFoodEffect: FoodEffect? = nil
     @State private var aiError: String? = nil
     
+    // AI coach (daily summary)
+    @State private var coachAdvice: String? = nil
+    @State private var isRequestingAdvice: Bool = false
+    
     // Focus states for keyboards
     @FocusState private var stepsFieldIsFocused: Bool
     @FocusState private var mealFieldIsFocused: Bool
@@ -60,7 +64,6 @@ struct LogScreen: View {
                                 Text("STEPS")
                                     .font(.system(.headline, design: .monospaced))
                                 Spacer()
-                                // Local "DONE" to kill keyboard if toolbar fails
                                 if stepsFieldIsFocused {
                                     Button("DONE") {
                                         stepsFieldIsFocused = false
@@ -74,8 +77,8 @@ struct LogScreen: View {
                                 TextField("Enter steps", text: $stepsText)
                                     .keyboardType(.numberPad)
                                     .padding(8)
-                                    .background(Color(white: 0.1)) // dark but visible
-                                    .foregroundColor(themeColor)   // green/red/blue/purple text
+                                    .background(Color(white: 0.1))
+                                    .foregroundColor(themeColor)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(themeColor, lineWidth: 1.5)
@@ -322,14 +325,39 @@ struct LogScreen: View {
                         }
                         .retroCard(theme: themeColor)
                         
-                        Button(action: finishToday) {
-                            Text("FINISH TODAY")
+                        // AI COACH CARD
+                        if let coachAdvice {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("AI COACH")
+                                    Spacer()
+                                    if isRequestingAdvice {
+                                        ProgressView()
+                                    }
+                                }
                                 .font(.system(.headline, design: .monospaced))
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(themeColor)
-                                .foregroundColor(.black)
-                                .cornerRadius(12)
+                                .foregroundColor(themeColor)
+                                
+                                Text(coachAdvice)
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundColor(themeColor.opacity(0.9))
+                            }
+                            .retroCard(theme: themeColor)
+                        }
+                        
+                        Button(action: finishToday) {
+                            HStack {
+                                if isRequestingAdvice {
+                                    ProgressView()
+                                }
+                                Text("FINISH TODAY")
+                            }
+                            .font(.system(.headline, design: .monospaced))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(themeColor)
+                            .foregroundColor(.black)
+                            .cornerRadius(12)
                         }
                         .padding(.bottom, 20)
                     }
@@ -348,7 +376,6 @@ struct LogScreen: View {
             distanceKm   = log.distanceKm
             flights      = log.flights
             
-            // For weight/height, prefer today's log; otherwise fall back to last known values
             if let w = log.bodyWeightKg {
                 bodyWeightKg = w
             } else if let lastW = viewModel.logs.reversed().compactMap({ $0.bodyWeightKg }).first {
@@ -362,7 +389,6 @@ struct LogScreen: View {
             }
         }
         .toolbar {
-            // Keyboard toolbar "Done" button (above number pad)
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button("Done") {
@@ -390,8 +416,9 @@ struct LogScreen: View {
     }
     
     func finishToday() {
-        // 1) Save today's data to the current simulated day
         let steps = Int(stepsText) ?? 0
+        
+        // 1) Save today's data
         viewModel.updateToday(
             steps: steps,
             healthyMeals: healthyMeals,
@@ -403,10 +430,41 @@ struct LogScreen: View {
             bodyHeightM: bodyHeightM
         )
         
-        // 2) Advance the app's "today" to the next day
+        // 2) Ask AI for daily advice (based on *current* state)
+        isRequestingAdvice = true
+        let pet = viewModel.pet
+        
+        PetAIModel.shared.generateDailyAdvice(
+            steps: steps,
+            sleepHours: sleepHours,
+            distanceKm: distanceKm,
+            flights: flights,
+            health: pet.health,
+            energy: pet.energy,
+            mood: pet.mood,
+            hunger: pet.hunger
+        ) { result in
+            DispatchQueue.main.async {
+                self.isRequestingAdvice = false
+                switch result {
+                case .success(let text):
+                    self.coachAdvice = text
+                    // Also schedule a local notification so the pet "reminds" you soon.
+                    NotificationManager.shared.scheduleNudge(
+                        in: 20, // seconds; good for demo
+                        title: "Your HealthGotchi",
+                        body: text
+                    )
+                case .failure(let error):
+                    print("Daily advice error:", error)
+                }
+            }
+        }
+        
+        // 3) Advance simulated day
         viewModel.advanceToNextDay()
         
-        // 3) Carry weight/height forward into the new day's log (they should be persistent)
+        // 4) Carry weight/height forward
         if let w = bodyWeightKg {
             viewModel.updateToday(bodyWeightKg: w)
         }
@@ -414,9 +472,7 @@ struct LogScreen: View {
             viewModel.updateToday(bodyHeightM: h)
         }
         
-        // 4) Reset today's editable fields for the new day.
-        //    Sleep, distance, flights, meals start at 0 for *today*,
-        //    but weight/height persist.
+        // 5) Reset day-specific fields
         sleepHours   = 0
         distanceKm   = 0
         flights      = 0
@@ -476,9 +532,7 @@ struct LogScreen: View {
         let trimmed = mealText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         
-        // kill keyboard
         mealFieldIsFocused = false
-        
         isAnalyzingMeal = true
         aiError = nil
         
@@ -489,7 +543,6 @@ struct LogScreen: View {
                 case .success(let effect):
                     self.lastFoodEffect = effect
                     
-                    // Map healthDelta sign into healthy vs junk counts (for existing logic)
                     if effect.healthDelta >= 0 {
                         self.healthyMeals += 1
                         self.viewModel.updateToday(healthyMeals: self.healthyMeals)
@@ -498,8 +551,6 @@ struct LogScreen: View {
                         self.viewModel.updateToday(junkMeals: self.junkMeals)
                     }
                     
-                    // Extra visible impact: boost and apply directly to pet stats.
-                    // So "good" meals noticeably move health/energy/mood.
                     let boostFactor = 1.5
                     let hDelta = effect.healthDelta * boostFactor
                     let eDelta = effect.energyDelta * boostFactor
@@ -513,7 +564,6 @@ struct LogScreen: View {
                     self.viewModel.pet.energy = clamp(self.viewModel.pet.energy + eDelta)
                     self.viewModel.pet.mood   = clamp(self.viewModel.pet.mood + mDelta)
                     
-                    // Persist updated pet state
                     self.viewModel.save()
                     
                 case .failure(let error):

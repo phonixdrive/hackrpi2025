@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PetScreen: View {
     @EnvironmentObject var viewModel: HealthPetViewModel
+    @State private var isChatPresented: Bool = false
     
     private var themeColor: Color {
         color(for: viewModel.themeColorName)
@@ -17,8 +18,7 @@ struct PetScreen: View {
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 12) {     // ⬅ was 24 — reduced spacing
-
+            VStack(spacing: 20) {
                 Text("HEALTHGOTCHI")
                     .font(.system(size: 26, weight: .bold, design: .monospaced))
                     .foregroundColor(themeColor)
@@ -28,10 +28,18 @@ struct PetScreen: View {
                     .font(.system(.headline, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                 
-                // Pixel Sprite
-                pixelPetView()
-                    .retroCard(theme: themeColor)
-                    .padding(.top, 4)        // NEW slight bump up
+                // Pixel pet sprite (tap to chat)
+                VStack(spacing: 4) {
+                    pixelPetView()
+                        .retroCard(theme: themeColor)
+                        .onTapGesture {
+                            isChatPresented = true
+                        }
+                    
+                    Text("TAP PET TO CHAT")
+                        .font(.system(.caption2, design: .monospaced))
+                        .foregroundColor(themeColor.opacity(0.8))
+                }
                 
                 // MAIN HEALTH BAR
                 VStack(alignment: .leading, spacing: 8) {
@@ -44,15 +52,14 @@ struct PetScreen: View {
                     HStack {
                         Text(String(format: "%3d%%", Int(viewModel.pet.health * 100)))
                         Spacer()
-                        Text(String(format: "XP %d", Int(viewModel.pet.experience)))
+                        Text(String(format: "XP %4.0f", viewModel.pet.experience))
                     }
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                 }
                 .retroCard(theme: themeColor)
-                .padding(.top, 4)        // NEW
                 
-                // HUNGER / ENERGY / MOOD
+                // EXTRA BARS: HUNGER / ENERGY / MOOD
                 VStack(alignment: .leading, spacing: 10) {
                     Text("STATS")
                         .font(.system(.headline, design: .monospaced))
@@ -63,18 +70,23 @@ struct PetScreen: View {
                     labeledStatBar(label: "MOOD", value: viewModel.pet.mood)
                 }
                 .retroCard(theme: themeColor)
-                .padding(.top, 4)        // NEW
                 
-                // STATUS / SPEECH BUBBLE
+                // Status message
                 Text(petMessage())
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(themeColor.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .retroCard(theme: themeColor)
-                    .padding(.bottom, 20)    // ⬅ gives breathing room above bottom buttons
+                
+                Spacer()
             }
             .padding(.horizontal)
+            .padding(.top, 4)
+        }
+        .sheet(isPresented: $isChatPresented) {
+            PetChatScreen()
+                .environmentObject(viewModel)
         }
     }
     
@@ -85,18 +97,11 @@ struct PetScreen: View {
         let spriteName = petSpriteName()
         
         VStack(spacing: 8) {
-            if UIImage(named: spriteName) != nil {
-                Image(spriteName)
-                    .resizable()
-                    .interpolation(.none) // important for pixel look
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
-            } else {
-                Text("Missing sprite: \(spriteName)")
-                    .font(.system(.caption, design: .monospaced))
-                    .foregroundColor(themeColor)
-                    .frame(width: 120, height: 120)
-            }
+            Image(spriteName)
+                .resizable()
+                .interpolation(.none) // important for pixel look
+                .scaledToFit()
+                .frame(width: 160, height: 160)
             
             Text(petMoodLabel())
                 .font(.system(.caption, design: .monospaced))
@@ -188,33 +193,31 @@ struct PetScreen: View {
     // MARK: - Bars
     
     private func statBar(value: Double) -> some View {
-        GeometryReader { geo in
-            let clamped = max(0.0, min(1.0, value))
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(themeColor.opacity(0.15))
-                    .frame(height: 18)
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(themeColor)
-                    .frame(width: max(4, geo.size.width * clamped),
-                           height: 18)
-            }
+        let clamped = max(0.0, min(1.0, value))
+        return ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(themeColor.opacity(0.15))
+                .frame(height: 18)
+            
+            RoundedRectangle(cornerRadius: 10)
+                .fill(themeColor)
+                .frame(width: max(4, CGFloat(clamped) * 220),
+                       height: 18)
         }
-        .frame(height: 18)
     }
     
     private func labeledStatBar(label: String, value: Double) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        let clamped = max(0.0, min(1.0, value))
+        return VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(label)
                 Spacer()
-                Text(String(format: "%3d%%", Int(max(0.0, min(1.0, value)) * 100)))
+                Text(String(format: "%3d%%", Int(clamped * 100)))
             }
             .font(.system(.caption, design: .monospaced))
             .foregroundColor(themeColor.opacity(0.9))
             
-            statBar(value: value)
+            statBar(value: clamped)
         }
     }
     
